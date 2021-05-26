@@ -108,9 +108,5 @@ footer a:hover {
 a img {
     height: 40px;
     width: auto;
-    transition: all .2s;
 }
 
-a img:hover {
-    transform: scale(1.2);
-}

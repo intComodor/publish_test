@@ -175,7 +175,7 @@ const App = () => {
       context.fillStyle = "#72a9dc";
       snake.forEach(([x, y]) => context.fillRect(x, y, 1, 1));
       var head_img = new Image();
-      head_img.src = '../img/head.png';
+      head_img.src = 'img/head.png';
         context.drawImage(head_img, apple[0] - 0.2, apple[1], 1.3, 1.3);
     }
 
