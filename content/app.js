@@ -280,7 +280,7 @@ const App = () => {
         </div>
         </div>
       </div>
-      <footer><a href="index.html">Mon CV</a> <a href="about.html">À propos</a> <a href="projects.html">Mes projets</a> <a href="soon.html">Prochainement</a></footer>
+      <footer><a href="../index.html">Mon CV</a> <a href="about.html">À propos</a> <a href="projects.html">Mes projets</a> <a href="soon.html">Prochainement</a></footer>
       </div>
   );
 };
