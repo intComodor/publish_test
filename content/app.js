@@ -209,7 +209,7 @@ const App = () => {
         <div className="right_side">
         <div className="cv_area" tabIndex="0">
             <div className="cv_header">
-                <div id="cv_pp" className="cv_pp" tabIndex="0"><img src="../img/pp.png" alt="" id="pp"></img></div>
+                <div id="cv_pp" className="cv_pp" tabIndex="0"><img src="img/pp.png" alt="" id="pp"></img></div>
                 <div id="cv_name" className="cv_name">BOUALI Karim</div>
             </div>
             <div className="cv_body">
@@ -280,7 +280,7 @@ const App = () => {
         </div>
         </div>
       </div>
-      <footer><a href="../index.html">Mon CV</a> <a href="about.html">À propos</a> <a href="projects.html">Mes projets</a> <a href="soon.html">Prochainement</a></footer>
+      <footer><a href="index.html">Mon CV</a> <a href="content/about.html">À propos</a> <a href="content/projects.html">Mes projets</a> <a href="content/soon.html">Prochainement</a></footer>
       </div>
   );
 };
