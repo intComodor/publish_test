@@ -81,10 +81,10 @@ h3 {
         font-size: calc(min(2vw, 1.4vh));
     }
     h2 {
-        font-size: calc(min(3vw, 2vh));
+        font-size: calc(min(3vw, 1.75vh));
     }
     h3 {
-        font-size: calc(min(2.5vw, 1.75vh));
+        font-size: calc(min(2.5vw, 1.5vh));
     }
     .cv_name {
         font-size: calc(min(6vw, 5vh));
