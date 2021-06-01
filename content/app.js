@@ -1,3 +1,69 @@
+window.onload = function () {
+  var w_dispo = window.innerWidth;
+  var h_dispo = window.innerHeight;
+
+  var cv_w = w_dispo - (w_dispo*0.1);
+  var cv_h = cv_w * (30/21);
+
+  while (cv_h > (h_dispo - 27)*0.9) {
+      cv_w -= 1;
+      cv_h = cv_w * (30/21);
+  } 
+
+  if (w_dispo < 800) {
+      document.getElementById('cv').style.height = `${cv_h}px`
+      document.getElementById('cv').style.width = `${cv_w}px`
+      document.getElementById('cv').style.marginTop = `${(h_dispo - cv_h - 60)/2}px`
+      
+  }
+
+  /**************** */
+  if (window.innerWidth <= 800) {
+      var h_cv = document.getElementById('cv').offsetHeight;
+      var h_jeu = document.getElementById('ss').offsetHeight;
+      document.getElementById('progress_bar').style.top = `${h_jeu + ((h_cv/2)-(h_jeu/2)) + 15}px`;
+      document.getElementById('jeu').style.top = `${(h_cv/2) - (h_jeu/2)}px`;
+      document.getElementById('jeu').style.left = `${(window.innerWidth/2) - (h_jeu/2)}px`;
+  }
+  
+  window.addEventListener("resize", function(event) {
+      var w_dispo = window.innerWidth;
+      var h_dispo = window.innerHeight;
+  
+      var cv_w = w_dispo - (w_dispo*0.1);
+      var cv_h = cv_w * (30/21);
+
+      while (cv_h > (h_dispo - 27)*0.9) {
+          cv_w -= 1;
+          cv_h = cv_w * (30/21);
+      } 
+  
+      if (w_dispo < 800) {
+          document.getElementById('cv').style.height = `${cv_h}px`
+          document.getElementById('cv').style.width = `${cv_w}px`
+          document.getElementById('cv').style.marginTop = `${(h_dispo - cv_h - 60)/2}px`   
+      }
+      else {
+          document.getElementById('cv').style.height = 'unset'
+          document.getElementById('cv').style.width = 'unset'
+          document.getElementById('cv').style.marginTop = 'unset'
+      }
+  })   
+}
+
+var smallScreen;
+if (window.innerWidth > 800)
+  smallScreen = false;
+else 
+  smallScreen = true;
+
+var initialX = null;
+var initialY = null;
+if (window.innerWidth > 800)
+  var eg = document.getElementById("root").offsetWidth / 2;
+else 
+  var eg = document.getElementById("root").offsetWidth;
+
 let start = false;
 let score = 0;
 var nb_game = 0;
@@ -13,25 +79,88 @@ const UNVEIL_DIV = [
   'cv_xp_pro',
   'skills'];
 
-const CANVAS_SIZE = [600, 600];
+var CANVAS_SIZE = [eg*0.8, eg*0.8];
 const SNAKE_START = [
   [6, 5],
   [6, 6]
 ];
 const APPLE_START = [0, 0];
-const SCALE = 60;
+var SCALE = (eg*0.8)/10;
 var SPEED = 200;
 const DIRECTIONS = {
-  38: [0, -1], // up
-  40: [0, 1], // down
-  37: [-1, 0], // left
-  39: [1, 0] // right
+  38: [0, -1],  // up
+  40: [0, 1],   // down
+  37: [-1, 0],  // left
+  39: [1, 0]    // right
 };
+
+window.addEventListener("resize", function(event) {
+  if (window.innerWidth > 800)
+    smallScreen = false;
+  else 
+    smallScreen = true;
+  
+  if (window.innerWidth > 800)
+    if (document.getElementById('ss') && document.getElementById('ss').style.display == 'none')
+      document.getElementById('ss').style.display = 'unset';
+
+  if (window.innerWidth > 800) {
+    if (window.offsetWidth > 800)
+      eg = document.getElementById("root").offsetWidth / 2;
+    else 
+      eg = document.getElementById("root").offsetWidth;
+    eg = document.getElementById("root").offsetWidth / 2;
+    CANVAS_SIZE[0] = eg*0.8;
+    CANVAS_SIZE[1] = eg*0.8;
+    SCALE = (eg*0.8)/10;
+    this.document.getElementById('ss').style.height = `${CANVAS_SIZE[1]}px`;
+    this.document.getElementById('ss').style.width = `${CANVAS_SIZE[0]}px`;
+    var e = document.getElementById("root").offsetHeight / 2;
+    e -= CANVAS_SIZE[1]/2;
+    e -= 20;
+    
+    this.document.getElementById('progress_bar').style.top = 'unset';
+    this.document.getElementById('progress_bar').style.bottom = `${e}px`;
+    this.document.getElementById('progress_bar').style.width = `${CANVAS_SIZE[0]}px`;
+    if (this.document.getElementById('score_text'))
+      this.document.getElementById('score_text').style.top = `${e - 150}px`;
+  }
+  else {
+    var h_cv = this.document.getElementById('cv').offsetHeight;
+    var h_jeu = this.document.getElementById('ss').offsetHeight;
+    this.document.getElementById('progress_bar').style.top = `${h_jeu + ((h_cv/2)-(h_jeu/2)) + 15}px`;
+    this.document.getElementById('jeu').style.top = `${(h_cv/2) - (h_jeu/2)}px`;
+    this.document.getElementById('jeu').style.left = `${(this.window.innerWidth/2) - (h_jeu/2)}px`;
+
+    eg = document.getElementById("root").offsetWidth;
+    CANVAS_SIZE[0] = eg*0.8;
+    CANVAS_SIZE[1] = eg*0.8;
+    SCALE = (eg*0.8)/10;
+    this.document.getElementById('ss').style.height = `${CANVAS_SIZE[1]}px`;
+    this.document.getElementById('ss').style.width = `${CANVAS_SIZE[0]}px`;
+    this.document.getElementById('progress_bar').style.width = `${CANVAS_SIZE[0]}px`;
+  }
+})
+
 
 const tab = [1, 2];
 let a = tab.map(title =>
   <div key={title}></div>
 );
+
+
+const SCORE_TEXT = [
+  'Ma photo',
+  'Mon nom',
+  'Mes contacts',
+  'Ma disponnibilité géographique',
+  'Ce que je recherche',
+  'Mon rythme d\'alternance',
+  'Mes formations',
+  'Mes experiences professionnelles',
+  'Mes compétences'
+];
+
 
 function useInterval(callback, delay) {
   const savedCallback = React.useRef();
@@ -123,6 +252,39 @@ const App = () => {
     return false;
   };
 
+  function startTouch(e) {    
+    initialX = e.touches[0].clientX;    
+    initialY = e.touches[0].clientY;  
+  };     
+  
+  function moveTouch(e) {    
+    if (initialX === null || initialY === null)      
+      return;        
+    
+    var currentX = e.touches[0].clientX;    
+    var currentY = e.touches[0].clientY;       
+    var diffX = initialX - currentX;    
+    var diffY = initialY - currentY;           
+    
+    if (Math.abs(diffX) > Math.abs(diffY)) {      
+      if (diffX > 0)        
+        setDir(DIRECTIONS[37])      
+      else        
+        setDir(DIRECTIONS[39])    
+    }     
+    else {      
+      if (diffY > 0)        
+        setDir(DIRECTIONS[38])       
+      else        
+        setDir(DIRECTIONS[40])    
+    }       
+    
+    initialX = null;    
+    initialY = null;         
+    e.preventDefault();  
+    
+  };
+
   /**
    * BOUCLE JEU
    */
@@ -137,8 +299,8 @@ const App = () => {
       if (score >= 1 && score <= 9)
         document.getElementById(UNVEIL_DIV[score - 1]).style.filter = "blur(0)";
       
-      SPEED = 200 - (score * 10);
-      setSpeed(SPEED);
+      SPEED = 200 - (score * 5);
+      setSpeed(SPEED);      
   };
 
   /**
@@ -161,8 +323,54 @@ const App = () => {
     document.getElementById("btn").style.display = 'none';
     document.getElementById("jeu").focus();
 
+    document.getElementById('root').addEventListener("touchstart", startTouch, false);      
+    document.getElementById('root').addEventListener("touchmove", moveTouch, false);
+
     start = true;
+
+
+    if (window.innerWidth > 800) {
+      var e = document.getElementById("root").offsetHeight / 2;
+      e -= CANVAS_SIZE[1]/2;
+      e -= 20;
+      document.getElementById('progress_bar').style.bottom = `${e}px`;
+      document.getElementById('progress_bar').style.width = `${CANVAS_SIZE[0]}px`;
+      document.getElementById('progress_bar').style.display = 'unset';
+    }
+    else {
+      var h_cv = document.getElementById('cv').offsetHeight;
+      var h_jeu = document.getElementById('ss').offsetHeight;
+      document.getElementById('progress_bar').style.top = `${h_jeu + ((h_cv/2)-(h_jeu/2)) + 15}px`;
+      document.getElementById('progress_bar').style.width = `${CANVAS_SIZE[0]}px`;
+      document.getElementById('progress_bar').style.display = 'unset';
+    }
   };
+
+  const restartGame = () => {
+    document.getElementById('btn1').style.display = 'none';
+    if (document.getElementById('btn2'))
+      document.getElementById('btn2').style.display = 'none';
+    if (document.getElementById('btn3'))
+    document.getElementById('btn3').style.display = 'none';
+    document.getElementById('ss').style.display = 'unset';
+    startGame();
+  };
+
+  if (window.innerWidth > 800 ) {
+    var z = document.getElementById("root").offsetHeight / 2;
+    z -= CANVAS_SIZE[1]/2;
+    z -= 20;
+    if (document.getElementById('score_text'))
+    document.getElementById('score_text').style.top = `${z - 150}px`;
+  }
+
+  if ((win || (gameOver && !win)) && smallScreen) {
+    document.getElementById('btn').style.display = 'none';
+    document.getElementById('ss').style.display = 'none';
+    //document.getElementById('win').style.display = 'none';
+    //TODO regler affichage progress
+  }
+
 
   /**
    * AFFICHAGE
@@ -185,29 +393,33 @@ const App = () => {
     <div>   
     <div className="main" id="main">
     {win && [...Array(13).keys()].map(i =><span className="confetti" key={i}></span>)}
+    {smallScreen && (win || (gameOver && !win)) && <button id="btn1" onClick={restartGame}>Rejouer</button>}
+    {smallScreen && win && <button id="btn2"><a href="img/cv.pdf" target="_blank">Voir mon CV</a></button>}
+    {smallScreen && (gameOver && !win) && <button id="btn3"><a href="img/cv.pdf" target="_blank">Tricher et voir mon CV</a></button>}
         <div className="left_side">
-            <div className="game_area">
+            <div id="game_area" className="game_area">
                 <div id="jeu" className="jeu" role="button" tabIndex="0" onKeyDown={e => moveSnake(e)}>
                   <button id="btn" onClick={startGame}>{(nb_game < 1) ? 'Commencer' : 'Rejouer'}</button>
-                  {!nb_game && <div id="rule">Bienvenu sur le SNAKARIM !<br/>Pour de découvrir mon CV attrapez le plus de «tête de Karim»<br/>Bonne chance !</div>}
-                  {gameOver && !win && <div id="loose">Perdu!<br/>Mauvais perdant? vous pouvez consulter mon CV sur mon profil Linkedin ou<br/>retentez vôtre chance.</div>}
-                  {win && <div id="win">BRAVO !</div>}
-                  
+                  {!nb_game && <div id="rule">Bienvenue sur le SNAKARIM!<br/>Pour découvrir mon CV attrapez<br/>le plus de «tête de Karim».<br/>Bonne chance!</div>}
+                  {!smallScreen && gameOver && !win && <div id="loose">Perdu!<br/>Mauvais perdant?<br/>Vous pouvez consulter mon CV <a href="img/cv.pdf" target="_blank">ici</a><br/>ou retenter votre chance.</div>}
+                  {!smallScreen && win && <div id="win">BRAVO !<br/>Vous pouvez consulter mon CV<br/><a href="img/cv.pdf" target="_blank">ici</a>.</div>}
                   <canvas
                     id="ss"
-                    style={{ border: "1px solid black"}}
+                    style={start && { border: "1px solid black", backgroundColor: "#72a9dc57"} || { backgroundColor: "#72a9dc"}}
                     ref={canvasRef}
                     width={`${CANVAS_SIZE[0]}px`}
                     height={`${CANVAS_SIZE[1]}px`}
                   />
-                    
-                    
+                  <progress id="progress_bar" max="9" value={score} ></progress>
+                  {score > 0 && score < 9 && <div key={score} id="score_text" >+{SCORE_TEXT[score-1]}</div>}
                   </div>
+                  
             </div>
+            
         </div>
 
         <div className="right_side">
-        <div className="cv_area" tabIndex="0">
+        <div className="cv_area" tabIndex="0" id="cv">
             <div className="cv_header">
                 <div id="cv_pp" className="cv_pp" tabIndex="0"><img src="img/pp.png" alt="" id="pp"></img></div>
                 <div id="cv_name" className="cv_name">BOUALI Karim</div>
@@ -269,7 +481,7 @@ const App = () => {
                     <div id="skills" className="skills">
                     <h2>Compétences</h2>
                         <ul>
-                            <li><b>Langue:</b> Anglais: orale: niveau scolaire, écrit: niveau courant.</li>
+                            <li><b>Langue:</b> Anglais: oral: niveau scolaire, écrit: niveau courant.</li>
                             <li><b>Compétences informatiques:</b> Programmation, méthode Agile et compétences en réseau et SGBD</li>
                             <li><b>Langages informatiques maitrisés:</b> C, Python, C++, Java, Shell, SQL et développement web : HTML/CSS/PHP/JS et React JS</li>
                             <li><b>Outils informatiques maitrisés:</b> Qt, Git, SQL Developer, Apache</li>
@@ -280,7 +492,7 @@ const App = () => {
         </div>
         </div>
       </div>
-      <footer><a href="index.html">Mon CV</a> <a href="content/about.html">À propos</a> <a href="content/projects.html">Mes projets</a> <a href="content/soon.html">Prochainement</a></footer>
+      <footer><a href="index.html">Mon CV</a> <a href="content/about.html">À propos</a> <a href="content/projects.html">Mes projets</a></footer>
       </div>
   );
 };
