@@ -1,3 +1,16 @@
+var aa = false;
+function end() {
+  aa = true;
+  console.log("wsh")
+  var h_cv = document.getElementById('cv').offsetHeight;
+      var h_jeu = document.getElementById('ss').offsetHeight;
+      document.getElementById('progress_bar').style.top = `${h_jeu + ((h_cv/2)-(h_jeu/2)) + 15}px`;
+      
+      var w_jeu = document.getElementById('progress_bar').offsetWidth;
+      var left_pbar = (window.innerWidth/2) - (w_jeu/2);
+      document.getElementById('progress_bar').style.right = `${left_pbar}px`;
+}
+
 function resize() {
   var w_dispo = window.innerWidth;
   var h_dispo = window.innerHeight;
@@ -22,6 +35,11 @@ function resize() {
       var h_cv = document.getElementById('cv').offsetHeight;
       var h_jeu = document.getElementById('ss').offsetHeight;
       document.getElementById('progress_bar').style.top = `${h_jeu + ((h_cv/2)-(h_jeu/2)) + 15}px`;
+      var w_jeu = document.getElementById('ss').offsetWidth;
+      var left_pbar = (w_dispo/2) - (w_jeu/2);
+      document.getElementById('progress_bar').style.right = `${left_pbar}px`;
+      
+
       document.getElementById('jeu').style.top = `${(h_cv/2) - (h_jeu/2)}px`;
       document.getElementById('jeu').style.left = `${(window.innerWidth/2) - (h_jeu/2)}px`;
   }
@@ -232,6 +250,16 @@ const App = () => {
     if (score >= 9)
       win = true;
     start = false;
+
+    if (window.innerWidth <= 800) {
+      var h_cv = document.getElementById('cv').offsetHeight;
+      var h_jeu = document.getElementById('ss').offsetHeight;
+      document.getElementById('progress_bar').style.top = `${h_jeu + ((h_cv/2)-(h_jeu/2)) + 15}px`;
+      
+      var w_jeu = document.getElementById('progress_bar').offsetWidth;
+      var left_pbar = (window.innerWidth/2) - (w_jeu/2);
+      document.getElementById('progress_bar').style.right = `${left_pbar}px`;
+    }
   };
 
   /**
@@ -373,6 +401,7 @@ const App = () => {
       document.getElementById('progress_bar').style.width = `${CANVAS_SIZE[0]}px`;
       document.getElementById('progress_bar').style.display = 'unset';
     }
+    aa = false;
   };
 
   const restartGame = () => {
@@ -422,6 +451,7 @@ const App = () => {
     <div>   
     <div className="main" id="main">
     {win && [...Array(13).keys()].map(i =><span className="confetti" key={i}></span>)}
+    {smallScreen && gameOver && !aa && end()}
     {smallScreen && (win || (gameOver && !win)) && <button id="btn1" onClick={restartGame}>Rejouer</button>}
     {smallScreen && win && <button id="btn2"><a href="img/cv.pdf" target="_blank">Voir mon CV</a></button>}
     {smallScreen && (gameOver && !win) && <button id="btn3"><a href="img/cv.pdf" target="_blank">Tricher et voir mon CV</a></button>}
